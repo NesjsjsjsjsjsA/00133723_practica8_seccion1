@@ -4,6 +4,9 @@ import jwt from "jsonwebtoken";
 import bodyParser from "body-parser";
 import cors from "cors";
 
+
+import db from "./controllers/comd.js";
+
 const app = express();
 const PORT = 5100;
 const JWT_SECRET = "your_jwt_secret"; // Usa una clave fuerte real en producción
@@ -25,7 +28,6 @@ const verifyToken = (req, res, next) => {
     next();
   });
 };
-
 // Ruta de login (acceso libre)
 app.post("/signin", async (req, res) => {
   const { email, password } = req.body;
@@ -46,6 +48,8 @@ app.post("/signin", async (req, res) => {
 app.get("/protected", verifyToken, (req, res) => {
   res.status(200).json({ message: "Protected data accessed", user: req.user });
 });
+
+app.get('/users',db.getUsers);
 
 app.listen(PORT, () =>
   console.log(`Server running at http://localhost:${PORT}`)
