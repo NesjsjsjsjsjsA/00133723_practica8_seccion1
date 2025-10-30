@@ -7,7 +7,7 @@ import cors from "cors";
 import { JWT_SECRET } from "./config/config.js";
 
 import db from "./controllers/comd.js";
-import {verifyToken, JOpw} from "./controllers/sends.js";
+import { verifyToken, JOpw } from "./controllers/sends.js";
 
 //export const JWT_SECRET = "your_jwt_secret";
 
@@ -44,10 +44,8 @@ app.get("/users", db.getUsers);
 
 //Apartado para determinar ...
 
-app.listen(PORT, () =>
-  console.log(`Server running at http://localhost:${PORT}`),
-console.log("JWT_SECRET =", process.env.JWT_SECRET)
-
+app.listen(
+  PORT,
+  () => console.log(`Server running at http://localhost:${PORT}`),
+  console.log("JWT_SECRET =", process.env.JWT_SECRET)
 );
-
-
