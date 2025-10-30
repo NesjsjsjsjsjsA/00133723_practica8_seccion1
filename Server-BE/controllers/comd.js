@@ -4,7 +4,7 @@ const getUsers = (req, resp) => {
   pool.query("SELECT * FROM users ORDER BY id ASC"),
     (error, results) => {
       if (error) {
-        throw console.error();
+        throw error;
       }
     };
 };
