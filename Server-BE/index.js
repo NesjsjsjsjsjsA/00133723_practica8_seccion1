@@ -2,6 +2,8 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import bodyParser from "body-parser";
 import cors from "cors";
+import { pool } from "./mod/psql.js"; 
+
 
 import { JWT_SECRET, PORT } from "./config/config.js";
 
@@ -10,12 +12,36 @@ import { verifyToken, JOpw } from "./controllers/sends.js";
 
 const app = express();
 
+pool.connect().then(client => {
+  console.log('Hola!');
+  client.release();
+}).catch( err => {
+  console.error("sql no connected", err)
+})
+
+pool.on("connected ",() => {
+  console.log("Log on")
+})
+
+pool.on("error",() => {
+  console.error("Error", err)
+})
+
+
 app.use(bodyParser.json());
 app.use(cors());
 
 app.get("/",db.displayHome);
 
 app.get("/users", db.getUsers);
+
+app.get("/users/:id", db.getUserByID)
+
+app.post("/users", db.createUser)
+
+app.put("/users/:id", db.updateUsers)
+
+app.delete("/users/:id", db.deleteUser)
 
 app.post("/signin", async (req, res) => {
   const { email, password } = req.body;
