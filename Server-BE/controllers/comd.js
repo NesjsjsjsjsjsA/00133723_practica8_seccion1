@@ -35,10 +35,11 @@ const updateUsers = async (req, resp) => {
 };
 
 const deleteUser = async (req, resp) => {
-  const {id} = req.params;
-  await pool.query("DELETE FORM users WHERE id= $1", [id]);
-  resp.json({message: "Completa eliminacion"})
+  const { id } = req.params;
+  await pool.query("DELETE FROM users WHERE id = $1", [id]);
+  resp.json({ message: "Eliminación completa" });
 };
+
 
 export default {
   displayHome,
