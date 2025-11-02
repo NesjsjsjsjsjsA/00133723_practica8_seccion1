@@ -13,13 +13,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+app.get("/",db.displayHome);
+
 app.get("/users", db.getUsers);
-
-app.get('/', (req, res) => {
-
-  res.json({info: 'Node.js and Postgress API'})
-
-})
 
 app.post("/signin", async (req, res) => {
   const { email, password } = req.body;

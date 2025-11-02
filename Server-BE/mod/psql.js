@@ -1,6 +1,8 @@
-import { Pool } from "pg";
+import phj  from "pg";
 
-const pool = new Pool({
+const {Pool} = phj;
+
+export const pool = new Pool({
   user: "neondb_owner",
   host: "ep-curly-sound-ahcrxe5b-pooler.c-3.us-east-1.aws.tech",
   database: "neondb",
@@ -8,4 +10,3 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false },
 });
 
-export default { pool };

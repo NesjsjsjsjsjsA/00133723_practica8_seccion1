@@ -1,13 +1,15 @@
-import pool from "../mod/psql.js";
+import { pool } from "../mod/psql.js";
 
-const getUsers = (req, resp) => {
-  pool.query("SELECT * FROM users ORDER BY id ASC"),
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-    };
+const displayHome = (req, res) => {
+  res.send("Hola!");
 };
+
+const getUsers = async (req, resp) => {
+  const results = await pool.query("SELECT * FROM users");
+  resp.json(results.rows);
+};
+
+const getUserByID = async (req, resp) => {};
 
 const createUser = (req, resp) => {
   const { name, email } = req.body;
@@ -53,5 +55,6 @@ const deleteUser = (req, resp) => {
 };
 
 export default {
-    getUsers
-}
+  displayHome,
+  getUsers,
+};
