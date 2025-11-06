@@ -1,30 +1,56 @@
 import { pool } from "../mod/psql.js";
 
-const displayHome = (req, res) => {
-  res.send("Hola!");
+import { hashing } from "../Tools/crypt.js";
+
+export const displayHome = (req, resp) => {
+  resp.send("Beinvendio al mundo PSQL!");
 };
 
-const getUsers = async (req, resp) => {
+export const getUsers = async (req, resp) => {
   const results = await pool.query("SELECT * FROM users");
   resp.json(results.rows);
 };
 
-const getUserByID = async (req, resp) => {
+export const getUserByID = async (req, resp) => {
   const { id } = req.params;
   const results = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
   resp.json(results.rows[0]);
 };
 
-const createUser = async (req, resp) => {
+export const getPassWord = async (email) => {
+  const {rows} = await pool.query(
+    "SELECT password FROM users WHERE email = $1",
+    [email]
+  );
+  return rows.length > 0 ?rows[0].password: null;
+};
+
+export const getUserID = async (email) => {
+  const {rows} = await pool.query("SELECT id FROM users WHERE email = $1", 
+    [email]
+  );
+  return rows.length > 0 ? {message: rows[0].id} : {message: "None"}
+};
+
+export const getRealUser = async (email) => {
+  const { rows } = await pool.query(
+    "SELECT email FROM users WHERE email = $1",
+    [email]
+  );
+  return rows.length > 0 ? rows[0].email : null;
+};
+
+export const createUser = async (req, resp) => {
   const { name, email, password } = req.body;
+  const Hashpassword = await hashing(password);
   const results = await pool.query(
     "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *",
-    [name, email, password]
+    [name, email, Hashpassword]
   );
   resp.status(201).json(results.rows[0]);
 };
 
-const updateUsers = async (req, resp) => {
+export const updateUsers = async (req, resp) => {
   const { id } = req.params;
   const { name, email } = req.body;
   const results = await pool.query(
@@ -34,18 +60,8 @@ const updateUsers = async (req, resp) => {
   resp.json(results.rows[0]);
 };
 
-const deleteUser = async (req, resp) => {
+export const deleteUser = async (req, resp) => {
   const { id } = req.params;
   await pool.query("DELETE FROM users WHERE id = $1", [id]);
   resp.json({ message: "Eliminación completa" });
-};
-
-
-export default {
-  displayHome,
-  getUsers,
-  getUserByID,
-  createUser,
-  updateUsers,
-  deleteUser,
 };
