@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../config/config.js";
+import { JWT_SECRET } from "../Security/config.js";
 export const JOpw = jwt
 
 export const verifyToken = (req, res, next) => {

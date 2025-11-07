@@ -1,4 +1,4 @@
-import { pool } from "../mod/psql.js";
+import { pool } from "../BDD/psql.js";
 
 import { hashing } from "../Tools/crypt.js";
 

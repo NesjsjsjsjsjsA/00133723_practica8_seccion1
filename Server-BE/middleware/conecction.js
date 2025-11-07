@@ -9,7 +9,7 @@ import {
   deleteUser,
 } from "../controllers/comd.js";
 
-import { verifyToken } from "../controllers/sends.js";
+import { verifyToken } from "../Security/sends.js";
 
 const router = express.Router();
 

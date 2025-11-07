@@ -4,13 +4,13 @@ import bodyParser from "body-parser";
 
 import cors from "cors";
 
-import routes from "./mod/conecction.js"
+import routes from "./middleware/conecction.js"
 
-import { JWT_SECRET, PORT } from "./config/config.js";
+import { JWT_SECRET, PORT } from "./Security/config.js";
 
 import { Comphashing } from "./Tools/crypt.js";
 
-import { verifyToken, JOpw } from "./controllers/sends.js";
+import { verifyToken, JOpw } from "./Security/sends.js"
 
 import { getUserID, getRealUser } from "./controllers/comd.js";
 
@@ -47,7 +47,7 @@ app.get("/protected", verifyToken, (req, res) => {
   });
 });
 
-app.use("/",routes)
+app.use("/APIformation",routes)
 
 app.listen(PORT, () =>
   console.log(`Server running at http://localhost:${PORT}`)
