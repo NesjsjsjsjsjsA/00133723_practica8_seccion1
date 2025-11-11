@@ -10,7 +10,7 @@ import { PORT } from "./Security/config.js";
 
 import { Comphashing } from "./Tools/crypt.js";
 
-import { verifyToken, signToken } from "./Security/sends.js";
+import { signToken } from "./Security/sends.js";
 
 import { getUserID, getRealUser } from "./controllers/auxcomd.js";
 
@@ -34,14 +34,7 @@ app.post("/signIn", async (req, res) => {
 
   const token = await signToken(user);
 
-  res.status(200).json({ token: token });
-});
-
-app.get("/protected", verifyToken, (req, res) => {
-  res.status(200).json({
-    message: "Protected data accessed", 
-    user: req.user,
-  });
+  res.status(200).json({ token: token, user: user });
 });
 
 app.use("/APIformation", routes);
