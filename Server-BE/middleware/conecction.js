@@ -13,7 +13,7 @@ import { verifyToken } from "../Security/sends.js";
 
 const router = express.Router();
 
-router.get("/", verifyToken, displayHome);
+router.get("/", displayHome);
 
 router.get("/users", verifyToken, getUsers);
 

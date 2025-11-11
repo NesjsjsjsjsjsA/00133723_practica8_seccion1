@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 
-import { getPassWord } from "../controllers/comd.js";
+import { getPassWord } from "../controllers/auxcomd.js";
 
 export const hashing = async (word) => {
   const saltRounds = 10;

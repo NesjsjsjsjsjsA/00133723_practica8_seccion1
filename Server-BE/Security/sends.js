@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../Security/config.js";
-export const JOpw = jwt
 
 export const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -14,6 +13,19 @@ export const verifyToken = (req, res, next) => {
   });
 };
 
+export const signToken = (user) => {
+  return new Promise((resolve, reject) => {
+    jwt.sign(
+      { id: user.id},
+      JWT_SECRET,
+      { expiresIn: "1h" },
+      (err, token) => {
+        if (err) reject(err);
+        else resolve(token);
+      }
+    );
+  }
+  );}
 
 
 
