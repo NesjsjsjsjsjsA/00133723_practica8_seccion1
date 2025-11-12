@@ -9,11 +9,25 @@ import {
   deleteUser,
 } from "../controllers/comd.js";
 
+import { signIn } from "../controllers/signIn.js";
+
 import { verifyToken } from "../Security/sends.js";
+
+import { answerCall } from "../BDD/psql.js";
 
 const router = express.Router();
 
+answerCall().then((ok) =>{
+  if (ok) {
+    console.log("Conexión a la base de datos exitosa");
+  } else {
+    console.log("Error en la conexión a la base de datos");
+  }
+})
+
 router.get("/", displayHome);
+
+router.post("/signIn", signIn);
 
 router.get("/users", verifyToken, getUsers);
 

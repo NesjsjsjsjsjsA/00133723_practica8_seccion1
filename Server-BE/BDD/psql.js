@@ -1,10 +1,10 @@
-import phj  from "pg";
+import phj from "pg";
 import dotenv from "dotenv";
 import path from "path";
 
 dotenv.config({ path: path.resolve("../Server-BE/miVar.env") });
 
-const {Pool} = phj;
+const { Pool } = phj;
 
 export const pool = new Pool({
   user: process.env.user,
@@ -14,17 +14,25 @@ export const pool = new Pool({
   ssl: { rejectUnauthorized: false },
 });
 
-pool.connect().then(client => {
-  console.log('Hola! Estamos al aire junto con PSQL');
+export const answerCall = async () => {
+  return pool
+    .connect()
+    .then((client) => {
+      exitosaConexion(client);
+      return true;
+    })
+    .catch((err) => {
+      fallodeConexion(err);
+      return false;
+    });
+};
+
+function exitosaConexion(client) {
+  console.log("Hola nuevo yo! Estamos al aire junto con PSQL");
   client.release();
-}).catch( err => {
-  console.error("sql no connected", err)
-})
+}
 
-pool.on("connected ",() => {
-  console.log("Try to go!")
-})
-
-pool.on("error",() => {
-  console.error("Crytical Error: ", err)
-})
+function fallodeConexion(err) {
+  console.error("El show no puede continuar sin PSQL", err);
+  client.release();
+}
